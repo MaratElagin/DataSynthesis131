@@ -1,0 +1,30 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "DataSynthesis131"
+version = "0.0.19"
+authors = [{name = "Marat Elagin", email = "maratelagin@gmail.com"}]
+license = "MIT"
+requires-python = ">=3.8"
+description = "A package for generating synthetic tabular data and evaluating the quality."
+readme = "README.md"
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+dependencies = [
+    "pandas>=1.2.3",
+    "numpy>=1.19.0",
+    "scikit-learn>=0.24.2",
+    "sdv",
+    "table-evaluator>=1.6.1"
+]
+
+[project.urls]
+Homepage = "https://github.com/MaratElagin/DataSynthesis131"
+Issues = "https://github.com/MaratElagin/DataSynthesis131/issues"
