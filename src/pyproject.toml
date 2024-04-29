@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "DataSynthesis131"
-version = "0.0.19"
+version = "0.0.1"
 authors = [{name = "Marat Elagin", email = "maratelagin@gmail.com"}]
 license = "MIT"
 requires-python = ">=3.8"
