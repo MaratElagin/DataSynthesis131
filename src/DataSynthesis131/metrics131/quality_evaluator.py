@@ -130,7 +130,7 @@ class QualityEvaluator:
         
         cat_cols = list(all_cols_set - numerical_cols_set)
 
-        table_evaluator = TableEvaluator(self.data, self.data_generated, cat_cols=cat_cols)
+        table_evaluator = TableEvaluator(self.data, self.data_generated, cat_cols=cat_cols, verbose=False)
         table_evaluator.evaluate(target_col=self.target_variable)
         table_evaluator.visual_evaluation()
 

@@ -31,6 +31,9 @@ class Synthesizer:
             self._log_info("You did not specify the name of the target variable (target_variable), so the dataset will be clustered and the target_variable will be - \"cluster\".")
             self._add_cluster_label()
             self.target_variable="cluster"
+            self.metadata.add_column(
+                column_name='cluster',
+                sdtype='categorical')
         if (not self.generation_params.with_missing_values):
             self._impute_missing_values(self.data)
 
