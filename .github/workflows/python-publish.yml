@@ -15,6 +15,7 @@ on:
 
 jobs:
   deploy:
+    name: Build and publish Python 🐍 distributions 📦 to PyPI
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -27,11 +28,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install build
       - name: Build package
-        run: |
-          cd src
-          python -m build
+        run: python -m build
       - name: Publish package
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          
           password: ${{ secrets.PYPI_API_TOKEN }}
