@@ -63,11 +63,11 @@ If you prefer an automatic selection of the most suitable algorithm for your dat
 data_generated = synthesizer.generate() # automatically choose the best generation algorithm
 ```
 
-It will automatically select the most suitable generation algorithm for your dataset, following the algorithm presented in the diagram.
+It will automatically select the most suitable generation algorithm for your dataset, following the algorithm presented in the [diagram](https://github.com/MaratElagin/DataSynthesis131/blob/main/README.md#-synthesizer).
 
 # 📐 QualityEvaluator
 
-A class to evaluate the quality of synthetic data. It compares real and generated datasets and provides quality metrics, graphs. The quality evaluator is based on the metrics described here.
+A class to evaluate the quality of synthetic data. It compares real and generated datasets and provides quality metrics, graphs. The quality evaluator is based on the metrics described [here](https://github.com/MaratElagin/DataSynthesis131/blob/main/README.md#metrics).
 
 **Creating a quality_evaluator:**
 
