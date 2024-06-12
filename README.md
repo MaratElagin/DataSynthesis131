@@ -112,7 +112,7 @@ All results are in [google spreadsheet](https://docs.google.com/spreadsheets/d/1
 from DataSynthesis131 import QualityEvaluator, Synthesizer, GenerationParams
 ```
 
-Please see documentation here to get more information and examples.
+Please see documentation [here](https://github.com/MaratElagin/DataSynthesis131/blob/main/DataSynthesis131/README.md) to get more information and examples.
 
 ### Demo
 
