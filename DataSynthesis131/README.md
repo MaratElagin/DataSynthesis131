@@ -21,7 +21,7 @@ gen_params = GenerationParams(
 	num_rows=1000,
 	fast_result=False,
 	target_variable=None,
-	with_missing_values=True
+	with_missing_values=True,
 	epochs=1000)
 ```
 
