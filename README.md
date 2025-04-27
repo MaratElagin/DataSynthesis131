@@ -118,6 +118,8 @@ Please see documentation [here](https://github.com/MaratElagin/DataSynthesis131/
 
 [Google-colab](https://colab.research.google.com/drive/1D66Nfn_miaiLtaa09fVR0Uu6_pDr6LCm?usp=sharing) with a demonstration of the library's work.
 
+[Live demo](https://youtu.be/6htWtSxMVWM)
+
 ### Contacts
 
 If you notice any inaccuracies, please add issue [here](https://github.com/MaratElagin/DataSynthesis131/issues).
