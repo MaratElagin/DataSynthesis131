@@ -1,0 +1,33 @@
+services:
+  platform:
+    build:
+      context: ..
+      dockerfile: platform/Dockerfile
+    container_name: datasynthesis131-platform
+    ports:
+      - "8000:8000"
+    # Bind-mounts: UI and Python changes on the host apply without image rebuild.
+    # After changing dependencies (requirements.txt / pyproject), run: docker compose up --build
+    volumes:
+      - platform-data:/app/platform/data/tmp
+      - ./static:/app/platform/static:ro
+      - ./app:/app/platform/app:ro
+      - ../DataSynthesis131:/app/DataSynthesis131:ro
+    environment:
+      KAGGLE_USERNAME: ${KAGGLE_USERNAME:-}
+      KAGGLE_KEY: ${KAGGLE_KEY:-}
+      PLATFORM_DEV: "1"
+    command:
+      [
+        "uvicorn",
+        "app.main:app",
+        "--host",
+        "0.0.0.0",
+        "--port",
+        "8000",
+        "--reload",
+      ]
+    restart: unless-stopped
+
+volumes:
+  platform-data:

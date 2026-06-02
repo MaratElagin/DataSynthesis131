@@ -1,127 +1,212 @@
-# 🎲  Synthesizer
+# DataSynthesis131 — Library
 
-A class to generate sythetic tabular data.
+[![PyPI version](https://badge.fury.io/py/DataSynthesis131.svg)](https://badge.fury.io/py/DataSynthesis131)
+[![Downloads](https://pepy.tech/badge/DataSynthesis131)](https://pepy.tech/project/DataSynthesis131)
+[![Downloads](https://pepy.tech/badge/DataSynthesis131/month)](https://pepy.tech/project/DataSynthesis131)
+
+Python library to generate synthetic tabular data and evaluate the quality of generated data.
+
+Developed as part of the final qualification work at the [Institute of Technical Cybernetics and Informatics (ITIS, KAI)](https://kai.ru/structure/general/institutes/institute-of-technical-cybernetics-and-informatics/), Kazan Federal University (KFU).
+
+## Overview
+
+### Main workflow
+
+![Main workflow](https://github.com/MaratElagin/DataSynthesis131/assets/78168429/7df94cc6-c702-4229-8ac8-a43b4bd909de)
+
+### Library components
+
+![Library components](https://github.com/MaratElagin/DataSynthesis131/assets/78168429/f51280cf-2a96-40ee-828d-8c08dea7e761)
+
+## Installation
+
+```bash
+pip install DataSynthesis131
+```
+
+```python
+from DataSynthesis131 import QualityEvaluator, Synthesizer, GenerationParams
+```
+
+## Quick start
+
+```python
+import pandas as pd
+from DataSynthesis131 import Synthesizer, GenerationParams, QualityEvaluator
+
+data = pd.read_csv("data.csv")
+
+gen_params = GenerationParams(num_rows=1000)
+synthesizer = Synthesizer.create(data, gen_params)
+data_generated = synthesizer.generate()
+
+quality_evaluator = QualityEvaluator(
+    data, data_generated, synthesizer.metadata, gen_params
+)
+report = quality_evaluator.evaluate()
+```
+
+---
+
+# 🎲 Synthesizer
+
+A class to generate synthetic tabular data.
 
 You configure the generation settings, edit the dataset metadata if needed, and then generate synthetic data. The synthesizer uses four models for generating tabular data: TVAE, CGAN, CTGAN, and GC.
 
-### ⚙️ GenerationParams
+The library is built on [The Synthetic Data Vault (SDV)](https://docs.sdv.dev/sdv). We compared four SDV synthesizers on different types of datasets (see [Model comparison](#models-comparison)):
 
-There is GenerationParams class, it allows configure the generation settings, such as:
+- [Gaussian Copula Synthesizer (GC)](https://docs.sdv.dev/sdv/single-table-data/modeling/synthesizers/gaussiancopulasynthesizer)
+- [Conditional GAN Synthesizer (CTGAN)](https://docs.sdv.dev/sdv/single-table-data/modeling/synthesizers/ctgansynthesizer)
+- [Copula GAN Synthesizer (CGAN)](https://docs.sdv.dev/sdv/single-table-data/modeling/synthesizers/copulagansynthesizer)
+- [Table Variational Autoencoder (TVAE)](https://docs.sdv.dev/sdv/single-table-data/modeling/synthesizers/tvaesynthesizer)
 
-- The number of rows to generate (`num_rows`);
-- Whether to prioritize fast results (`fast_result`); False by default.
-- Specify the target variable (`target_variable`); If you do not provide a target variable, your dataset will be clustered, and the *cluster* labels will be used as the `target_variable`.
-- Include missing values if needed (`with_missing_values`); True by default. If you want to remove NaNs or empty values from your dataset, you can disable it.
-- Set the number of training epochs (`epochs`); 1000 by default. This default is optimal for most cases. You can decrease the number of epochs to speed up the process, but this may reduce the quality of the generated data. Conversely, increasing the number of epochs can improve data quality slightly, but it will also increase the training time.
+The core of the synthesizer is an algorithm that chooses the best generation method depending on dataset characteristics:
 
-**Creating a gen_params:**
+| ![Algorithm to choose best generation method](https://github.com/MaratElagin/DataSynthesis131/assets/78168429/4150d04e-0438-4492-b037-29c297167147) |
+|:--:|
+| *Algorithm to choose best generation method depending on dataset* |
+
+## ⚙️ GenerationParams
+
+`GenerationParams` configures generation settings:
+
+- `num_rows` — number of rows to generate
+- `fast_result` — prioritize speed (default: `False`)
+- `target_variable` — target column; if omitted, the dataset is clustered and cluster labels are used
+- `with_missing_values` — keep missing values (default: `True`)
+- `epochs` — training epochs (default: `1000`)
 
 ```python
 gen_params = GenerationParams(
-	num_rows=1000,
-	fast_result=False,
-	target_variable=None,
-	with_missing_values=True,
-	epochs=1000)
+    num_rows=1000,
+    fast_result=False,
+    target_variable=None,
+    with_missing_values=True,
+    epochs=1000,
+)
 ```
 
-### Dataset metadata
+## Dataset metadata
 
-The `SingleTableMetadata` from SDV is an object that describes your table. Using metadata, you can set various parameters for generation, such as column types, primary keys, data ranges and formats, and regular expressions. SDV provides good [documentation](https://docs.sdv.dev/sdv/single-table-data/data-preparation/single-table-metadata-api) for it.
-
-Fortunately, metadata is automatically determined based on the dataset when you create the synthesizer.
+`SingleTableMetadata` from SDV describes your table (column types, keys, ranges, formats). Metadata is auto-detected when you create the synthesizer. See [SDV metadata docs](https://docs.sdv.dev/sdv/single-table-data/data-preparation/single-table-metadata-api).
 
 **Creating a synthesizer:**
 
 ```python
-synthesizer = Synthesizer.create(
-	data, # pandas dataframe
-	gen_params # generation parameters
-)
+synthesizer = Synthesizer.create(data, gen_params)
 ```
 
-This will return the metadata for your dataset. You can edit the metadata if needed (see [documentation](https://docs.sdv.dev/sdv/single-table-data/data-preparation/single-table-metadata-api#update-api))
-
-| <img width="259" alt="image" src="https://github.com/MaratElagin/DataSynthesis131/assets/78168429/167ef16c-bdfe-49f4-9de0-e7b90fcf312a"> |
-|:--:| 
+| <img width="259" alt="Example of metadata" src="https://github.com/MaratElagin/DataSynthesis131/assets/78168429/167ef16c-bdfe-49f4-9de0-e7b90fcf312a"> |
+|:--:|
 | *Example of metadata* |
 
-Additionally, you can use the `synthesizer.visualize_metadata()` method to get detailed information about your metadata after the synthesizer has been created.
+Use `synthesizer.visualize_metadata()` for a detailed view after creation.
 
-When everything ready you can generate data! You can select a specific generation algorithm.
-
-```python
-data_generated = synthesizer.ctgan_generate() # CTGAN
-data_generated = synthesizer.gaussian_copula_generate() # GC
-data_generated = synthesizer.copula_gan_generate() # CGAN
-data_generated = synthesizer.tvae_generate() # TVAE
-```
-
-If you prefer an automatic selection of the most suitable algorithm for your dataset, use the `generate()` method:
+**Generating data:**
 
 ```python
-data_generated = synthesizer.generate() # automatically choose the best generation algorithm
+data_generated = synthesizer.ctgan_generate()           # CTGAN
+data_generated = synthesizer.gaussian_copula_generate()   # GC
+data_generated = synthesizer.copula_gan_generate()        # CGAN
+data_generated = synthesizer.tvae_generate()              # TVAE
+data_generated = synthesizer.generate()                   # auto-select best method
 ```
 
-It will automatically select the most suitable generation algorithm for your dataset, following the algorithm presented in the [diagram](https://github.com/MaratElagin/DataSynthesis131/blob/main/README.md#-synthesizer).
+---
 
-# 📐 QualityEvaluator
+# 📐 QualityEvaluator
 
-A class to evaluate the quality of synthetic data. It compares real and generated datasets and provides quality metrics, graphs. The quality evaluator is based on the metrics described [here](https://github.com/MaratElagin/DataSynthesis131/blob/main/README.md#metrics).
+Compares real and generated datasets and returns quality metrics and plots.
 
-**Creating a quality_evaluator:**
+**Creating a quality evaluator:**
 
 ```python
 quality_evaluator = QualityEvaluator(
-	data, # real data
-	data_generated, # generated
-	synthesizer.metadata, # metadata
-	gen_params # generation parameters
+    data,
+    data_generated,
+    synthesizer.metadata,
+    gen_params,
 )
 ```
 
-**Generated data evaluation:**
+**Evaluation:**
 
 ```python
 quality_evaluator.evaluate(with_details=False)
 ```
 
-The `with_details` parameter is `False` by default. If set to `True`, the evaluation report will include the TableEvaluator.
+With `with_details=True`, the report includes TableEvaluator output.
 
-The evaluation report returns various metrics such as Propensity Score, Log-Cluster Metric, Prediction Accuracy, Data Validity, and SDV Score. It also includes three plots showing the distribution by column in real and synthetic data:
-
-1. The best matching distributions
-
-2. The middle matching distributions
-
-3. The worst matching distributions
-
-- If you want to print distribution plot for specific column, you should use `print_column_plot`
+Returns Propensity Score, Log-Cluster Metric, Prediction Accuracy, Data Validity, SDV Score, and distribution plots (best / middle / worst matching columns).
 
 ```python
 quality_evaluator.print_column_plot(column_name)
-```
-
-- If you want get only metrics as Propensity Score, Log-Cluster Metric, Prediction Accuracy, you should use `evaluate_metrics`. It return tuple `(propensity_score, log_cluster_metric, prediction_accuracy)`
-
-```python
-quality_evaluator.evaluate_metrics()
+quality_evaluator.evaluate_metrics()  # (propensity_score, log_cluster_metric, prediction_accuracy)
 ```
 
 **Examples:**
 
-| ![The best matching distributions between real and synthetic data for the `MinorAxisLength` column.](https://github.com/MaratElagin/DataSynthesis131/assets/78168429/6244cd31-ce2c-4f52-be93-e4a1f47bbdd7) |
-|:--:| 
-| *The best matching distributions between real and synthetic data for the `MinorAxisLength` column.* |
+| ![Best matching distributions](https://github.com/MaratElagin/DataSynthesis131/assets/78168429/6244cd31-ce2c-4f52-be93-e4a1f47bbdd7) |
+|:--:|
+| *Best matching distributions for the `MinorAxisLength` column* |
 
-The best matching distributions between real and synthetic data for the `MinorAxisLength` column.
-
-
-| <img width="463" alt="image" src="https://github.com/MaratElagin/DataSynthesis131/assets/78168429/cbde5f54-748d-4f8d-b545-1cc08f61750e"> |
-|:--:| 
+| <img width="463" alt="Table evaluator report" src="https://github.com/MaratElagin/DataSynthesis131/assets/78168429/cbde5f54-748d-4f8d-b545-1cc08f61750e"> |
+|:--:|
 | *Table evaluator report* |
 
-
 | ![Table evaluator visualization](https://github.com/MaratElagin/DataSynthesis131/assets/78168429/200317ed-6693-46d9-a708-1c071a15ca4c) |
-|:--:| 
+|:--:|
 | *Table evaluator visualization* |
+
+---
+
+## Metrics
+
+Synthetic data quality is often assessed along three axes: **fidelity**, **utility**, and **privacy**. This library focuses on **fidelity** as the primary evaluation aspect.
+
+Three key metrics:
+
+- **[Propensity score](https://www.mdpi.com/2227-7390/11/15/3278)** — distinguishability between real and synthetic data:
+
+$$
+pMSE = \frac{1}{N}\sum_{n}\left(\widehat{p}_{n}-0.5\right)^{2}
+$$
+
+- **[Log-Cluster metric](https://bmcmedresmethodol.biomedcentral.com/articles/10.1186/s12874-020-00977-1)** — how easily real and synthetic rows cluster apart:
+
+$$
+U_c(X_R, X_S) = \log\left( \frac{1}{G} \sum_{j=1}^G \left[ \frac{n_j^R}{n_j} - c \right]^2 \right), \quad c = \frac{n^R}{n^R + n^S}
+$$
+
+- **Prediction accuracy** — Random Forest trained on synthetic data, evaluated on real labels.
+
+Additionally:
+
+- [Quality Report](https://docs.sdv.dev/sdmetrics/reports/quality-report) from [SDMetrics](https://docs.sdv.dev/sdmetrics)
+- [Table evaluator](https://github.com/Baukebrenninkmeijer/table-evaluator)
+
+## Models comparison
+
+Datasets are categorized **by balance** (balanced / weakly balanced / not balanced), **by data type** (numerical / categorical / mixed), and by dimensionality and size.
+
+No preprocessing is applied before synthesis — [Dankar and Ibrahim (2021)](https://www.mdpi.com/2076-3417/11/5/2158) show that raw data often yields higher-utility synthetic data.
+
+All comparison results: [Google Spreadsheet](https://docs.google.com/spreadsheets/d/1zOwbl4434EyLFWBd1YC-W45_H1f1AFZaTMWjnS6VhUY/edit?usp=sharing).
+
+![Example for numerical weakly balanced datasets](https://github.com/MaratElagin/DataSynthesis131/assets/78168429/c94370e9-8a21-4b82-8963-e5d549a20bc9)
+
+## Demo
+
+- [Google Colab](https://colab.research.google.com/drive/1D66Nfn_miaiLtaa09fVR0Uu6_pDr6LCm?usp=sharing)
+- [Video demo](https://youtu.be/6htWtSxMVWM)
+
+## Web platform
+
+A local web UI wraps this library — upload CSV/Excel/Kaggle datasets, run generation, view metrics and plots.
+
+See [platform/README.md](../platform/README.md) and [platform/docs/how-to-run.md](../platform/docs/how-to-run.md).
+
+## Contacts
+
+Issues: [GitHub](https://github.com/MaratElagin/DataSynthesis131/issues) · Telegram: [@TBag2002](https://t.me/TBag2002)

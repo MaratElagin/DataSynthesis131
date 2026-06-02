@@ -1,0 +1,16 @@
+.git
+.gitignore
+**/__pycache__
+**/*.py[cod]
+**/.pytest_cache
+.venv
+venv
+env
+platform/data/tmp
+*.egg-info
+dist
+build
+.cursor
+.idea
+.DS_Store
+platform/.env

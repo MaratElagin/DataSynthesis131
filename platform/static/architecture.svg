@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 620" role="img" aria-label="DataSynthesis131 Platform architecture">
+  <defs>
+    <marker id="arr" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#5b9dff"/>
+    </marker>
+    <marker id="arr2" markerWidth="9" markerHeight="9" refX="2" refY="4.5" orient="auto">
+      <path d="M9,0 L0,4.5 L9,9 z" fill="#5b9dff"/>
+    </marker>
+    <style>
+      text { font-family: 'DM Sans', Inter, system-ui, sans-serif; }
+      .layer-title  { font-size: 13px; font-weight: 700; fill: #eef2ff; }
+      .layer-sub    { font-size: 10.5px; font-weight: 500; fill: #7a90b8; letter-spacing: 0.4px; }
+      .box-title    { font-size: 12px; font-weight: 700; fill: #dde8ff; }
+      .box-text     { font-size: 10.5px; fill: #8fa6cc; line-height: 1.5; }
+      .arrow-lbl    { font-size: 10px; fill: #5b9dff; font-style: italic; }
+    </style>
+  </defs>
+
+  <!-- background -->
+  <rect width="860" height="620" fill="#0c1520"/>
+
+  <!-- ═══════════════════════ LAYER 1 — FRONTEND ═══════════════════════ -->
+  <rect x="30" y="20" width="800" height="125" rx="10" fill="#111e2e" stroke="#5b9dff" stroke-width="1.5"/>
+  <text x="50" y="44"  class="layer-title">Браузер — Frontend</text>
+  <text x="50" y="60"  class="layer-sub">HTML · CSS · JavaScript (app.js · i18n.js)</text>
+
+  <!-- box: Upload -->
+  <rect x="50" y="72" width="216" height="55" rx="7" fill="#0f1a2a" stroke="#5b9dff" stroke-opacity="0.4"/>
+  <text x="158" y="97"  text-anchor="middle" class="box-title">Загрузка данных</text>
+  <text x="158" y="115" text-anchor="middle" class="box-text">CSV / Excel · Kaggle URL</text>
+
+  <!-- box: Params -->
+  <rect x="322" y="72" width="216" height="55" rx="7" fill="#0f1a2a" stroke="#5b9dff" stroke-opacity="0.4"/>
+  <text x="430" y="97"  text-anchor="middle" class="box-title">Параметры генерации</text>
+  <text x="430" y="115" text-anchor="middle" class="box-text">метод · эпохи · число строк</text>
+
+  <!-- box: Results -->
+  <rect x="594" y="72" width="216" height="55" rx="7" fill="#0f1a2a" stroke="#5b9dff" stroke-opacity="0.4"/>
+  <text x="702" y="97"  text-anchor="middle" class="box-title">Результаты</text>
+  <text x="702" y="115" text-anchor="middle" class="box-text">метрики · графики · CSV / PDF</text>
+
+
+  <!-- ═══════════════════════ ARROW 1 ═══════════════════════ -->
+  <!-- down -->
+  <line x1="430" y1="145" x2="430" y2="178" stroke="#5b9dff" stroke-width="1.8" marker-end="url(#arr)"/>
+  <!-- up -->
+  <line x1="420" y1="178" x2="420" y2="145" stroke="#5b9dff" stroke-width="1.8" marker-end="url(#arr2)"/>
+  <text x="438" y="166" class="arrow-lbl">HTTP / REST API</text>
+
+
+  <!-- ═══════════════════════ LAYER 2 — BACKEND ═══════════════════════ -->
+  <rect x="30" y="182" width="800" height="158" rx="10" fill="#111e2e" stroke="#8b6bff" stroke-width="1.5"/>
+  <text x="50" y="206" class="layer-title">FastAPI Backend (Python)</text>
+  <text x="50" y="222" class="layer-sub">async Jobs · Thread Pool · In-memory Job Store</text>
+
+  <!-- box: API -->
+  <rect x="50" y="232" width="290" height="94" rx="7" fill="#0f1a2a" stroke="#8b6bff" stroke-opacity="0.45"/>
+  <text x="60" y="252" class="box-title">REST API</text>
+  <text x="60" y="271" class="box-text">POST /api/upload          POST /api/generate</text>
+  <text x="60" y="288" class="box-text">GET  /api/jobs/{id}       POST /api/jobs/{id}/cancel</text>
+  <text x="60" y="305" class="box-text">GET  /api/jobs/{id}/download   /report.pdf</text>
+
+  <!-- box: Pipeline -->
+  <rect x="390" y="232" width="420" height="94" rx="7" fill="#0f1a2a" stroke="#8b6bff" stroke-opacity="0.45"/>
+  <text x="400" y="252" class="box-title">Pipeline (фоновый поток)</text>
+  <text x="400" y="271" class="box-text">load_dataframe()</text>
+  <text x="400" y="288" class="box-text">→ Synthesizer.generate()       → synthetic.csv</text>
+  <text x="400" y="305" class="box-text">→ QualityEvaluator.export_report()  → report.json + plots</text>
+
+
+  <!-- ═══════════════════════ ARROWS 2 ═══════════════════════ -->
+  <line x1="225" y1="340" x2="225" y2="372" stroke="#5b9dff" stroke-width="1.8" marker-end="url(#arr)"/>
+  <line x1="635" y1="340" x2="635" y2="372" stroke="#5b9dff" stroke-width="1.8" marker-end="url(#arr)"/>
+
+
+  <!-- ═══════════════════════ LAYER 3 — LIBRARY ═══════════════════════ -->
+
+  <!-- Synthesizer -->
+  <rect x="30" y="376" width="390" height="158" rx="10" fill="#111e2e" stroke="#3ecf8e" stroke-width="1.5"/>
+  <text x="50" y="400" class="layer-title">Synthesizer</text>
+  <text x="50" y="416" class="layer-sub">DataSynthesis131 library</text>
+  <text x="50" y="438" class="box-text">Анализ типа датасета и баланса классов</text>
+  <text x="50" y="456" class="box-text">Авто-выбор метода генерации:</text>
+  <text x="66" y="474" class="box-text">· Gaussian Copula</text>
+  <text x="66" y="491" class="box-text">· CTGAN  · Copula GAN  · TVAE</text>
+  <text x="50" y="516" class="box-text" style="fill:#3ecf8e;font-weight:600">→ синтетический датасет (DataFrame)</text>
+
+  <!-- arrow Synth → QE -->
+  <line x1="420" y1="454" x2="450" y2="454" stroke="#5b9dff" stroke-width="1.8" marker-end="url(#arr)"/>
+  <text x="420" y="444" class="arrow-lbl">evaluate</text>
+
+  <!-- QualityEvaluator -->
+  <rect x="440" y="376" width="390" height="158" rx="10" fill="#111e2e" stroke="#3ecf8e" stroke-width="1.5"/>
+  <text x="460" y="400" class="layer-title">QualityEvaluator</text>
+  <text x="460" y="416" class="layer-sub">DataSynthesis131 library</text>
+  <text x="460" y="438" class="box-text">Propensity score (pMSE)   ↓ меньше — лучше</text>
+  <text x="460" y="456" class="box-text">Log-cluster metric          ↓ меньше — лучше</text>
+  <text x="460" y="474" class="box-text">Prediction accuracy         ↑ больше — лучше</text>
+  <text x="460" y="491" class="box-text">SDV score · Data validity   ↑ больше — лучше</text>
+  <text x="460" y="516" class="box-text" style="fill:#3ecf8e;font-weight:600">→ report.json · plots/ · report.pdf</text>
+
+
+  <!-- ═══════════════════════ ARROWS 3 ═══════════════════════ -->
+  <line x1="430" y1="534" x2="430" y2="566" stroke="#5b9dff" stroke-width="1.8" marker-end="url(#arr)"/>
+
+
+  <!-- ═══════════════════════ LAYER 4 — STORAGE ═══════════════════════ -->
+  <rect x="30" y="570" width="800" height="34" rx="10" fill="#111e2e" stroke="#4c6080" stroke-width="1.5"/>
+  <text x="50"  y="592" class="layer-title" style="font-size:12px">Файловая система</text>
+  <text x="183" y="592" class="box-text">data/tmp/{job_id}/  —  input.csv · synthetic.csv · report.json · plots/ · report.pdf · synthetic.xlsx</text>
+
+</svg>

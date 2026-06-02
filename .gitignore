@@ -176,4 +176,7 @@ pyrightconfig.json
 # macOS folder attributes
 .DS_Store
 
+# Platform temp data
+platform/data/tmp/
+
 # End of https://www.toptal.com/developers/gitignore/api/python

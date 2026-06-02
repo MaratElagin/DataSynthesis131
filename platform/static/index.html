@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DataSynthesis131</title>
+  <link rel="icon" href="/static/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css?v=18">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/" data-i18n-aria="brand.aria">
+        <img class="brand-mark" src="/static/logo.svg" width="44" height="44" alt="">
+        <span class="brand-lockup">
+          <span class="brand-name">Data<span class="brand-highlight">Synthesis</span><span class="brand-num">131</span></span>
+          <span class="brand-tag" data-i18n="brand.tag">Synthetic tabular data</span>
+        </span>
+      </a>
+      <nav class="header-actions">
+        <a href="/about" class="header-link" data-i18n="nav.about">О платформе</a>
+        <div class="lang-switcher">
+          <button type="button" id="lang-btn" class="lang-btn" aria-haspopup="true" aria-expanded="false" data-i18n-aria="lang.menu">
+            <svg class="lang-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M2 12h20M12 2a15 15 0 0 1 4 10 15 15 0 0 1-4 10 15 15 0 0 1-4-10 15 15 0 0 1 4-10z"/>
+            </svg>
+            <span id="lang-label">RU</span>
+          </button>
+          <div id="lang-menu" class="lang-menu hidden" role="menu">
+            <button type="button" data-lang="ru" data-i18n="lang.ru">Русский</button>
+            <button type="button" data-lang="en" data-i18n="lang.en">English</button>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="upload-section" class="card">
+      <h2 data-i18n="step.upload">1. Загрузка данных</h2>
+      <label class="file-drop" id="file-drop">
+        <input type="file" id="file-input" accept=".csv,.xlsx,.xls">
+        <span data-i18n="upload.drop">Перетащите CSV / XLS файл или нажмите для выбора</span>
+      </label>
+      <div id="upload-status" class="status hidden"></div>
+    </section>
+
+    <section id="preview-section" class="card hidden">
+      <h2 data-i18n="step.preview">2. Превью датасета</h2>
+      <div id="dataset-stats" class="stats"></div>
+      <p id="preview-caption" class="preview-caption"></p>
+      <div class="table-wrap">
+        <table id="preview-table"><thead></thead><tbody></tbody></table>
+      </div>
+    </section>
+
+    <section id="params-section" class="card hidden">
+      <h2 data-i18n="step.params">3. Параметры генерации</h2>
+      <div class="form-grid">
+        <div class="field">
+          <label class="field-label" for="num-rows" data-i18n="field.numRows">Число строк</label>
+          <input type="number" id="num-rows" class="field-control no-spinners" min="1" value="100">
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="target-variable" data-i18n="field.target">Целевая переменная</label>
+          <select id="target-variable" class="field-control">
+            <option value="" data-i18n="target.auto">Авто (cluster)</option>
+          </select>
+          <span class="field-hint" data-i18n="field.target.hint">Если не выбрана, используется auto target (cluster)</span>
+        </div>
+
+        <div class="field field--with-tooltip">
+          <div class="field-label-row">
+            <label class="field-label" for="method" data-i18n="field.method">Метод генерации</label>
+            <div class="info-btn-wrap">
+              <button type="button" class="info-btn" id="method-tip-btn" aria-expanded="false">?</button>
+              <div id="method-tip" class="tip-dropdown">
+                <a href="/about#generation-models" target="_blank" rel="noopener" class="tip-link">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/>
+                  </svg>
+                  <span data-i18n="method.tip.link">О моделях генерации</span>
+                </a>
+              </div>
+            </div>
+          </div>
+          <select id="method" class="field-control">
+            <option value="auto" data-i18n="method.auto">Авто — по типу датасета</option>
+            <option value="gc" data-i18n="method.gc">Gaussian Copula</option>
+            <option value="ctgan" data-i18n="method.ctgan">Conditional GAN</option>
+            <option value="cgan" data-i18n="method.cgan">Copula GAN</option>
+            <option value="tvae" data-i18n="method.tvae">Tabular VAE</option>
+          </select>
+        </div>
+
+        <div class="field" id="epochs-field">
+          <label class="field-label" for="epochs" data-i18n="field.epochs">Epochs</label>
+          <div class="range-wrap">
+            <input type="range" id="epochs" min="100" max="1000" step="50" value="300">
+            <input type="number" id="epochs-value" class="no-spinners range-value" min="100" max="1000" step="50" value="300">
+          </div>
+          <span class="field-hint" data-i18n="field.epochs.hint">100–1000, шаг 50</span>
+        </div>
+      </div>
+
+      <div class="toggle-row">
+        <label class="toggle">
+          <input type="checkbox" id="fast-result">
+          <span class="toggle-track" aria-hidden="true"></span>
+          <span class="toggle-text">
+            <span class="toggle-title" data-i18n="toggle.fast">Быстрый результат</span>
+            <span class="toggle-desc" data-i18n="toggle.fast.desc">Фиксирует Gaussian Copula</span>
+          </span>
+        </label>
+        <label class="toggle">
+          <input type="checkbox" id="with-missing" checked>
+          <span class="toggle-track" aria-hidden="true"></span>
+          <span class="toggle-text">
+            <span class="toggle-title" data-i18n="toggle.missing">Сохранять пропуски</span>
+            <span class="toggle-desc" data-i18n="toggle.missing.desc">Иначе NaN заполняются автоматически</span>
+          </span>
+        </label>
+        <label class="toggle">
+          <input type="checkbox" id="merge-with-input">
+          <span class="toggle-track" aria-hidden="true"></span>
+          <span class="toggle-text">
+            <span class="toggle-title" data-i18n="toggle.merge">Объединить с входным датасетом</span>
+            <span class="toggle-desc" data-i18n="toggle.merge.desc">В итоговый CSV попадут real + synthetic</span>
+          </span>
+        </label>
+      </div>
+
+      <div id="analysis-box" class="analysis hidden"></div>
+      <button type="button" id="generate-btn" class="btn primary btn-lg" data-i18n="btn.generate">Сгенерировать</button>
+    </section>
+
+    <section id="progress-section" class="card hidden">
+      <h2 data-i18n="step.progress">4. Генерация</h2>
+      <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
+      <p id="progress-message" data-i18n="progress.wait">Ожидание...</p>
+    </section>
+
+    <section id="results-section" class="card hidden">
+      <h2 data-i18n="step.results">5. Результаты</h2>
+      <div class="results-dashboard">
+        <div id="metrics-left"  class="metrics-col"></div>
+        <div id="speedometer-container" class="speedometer-col"></div>
+        <div id="metrics-right" class="metrics-col"></div>
+      </div>
+      <div class="download-row">
+        <a id="download-csv"  class="btn secondary" href="#" download data-i18n="btn.download.csv">Скачать CSV</a>
+        <a id="download-xlsx" class="btn secondary" href="#" download data-i18n="btn.download.xlsx">Скачать Excel</a>
+      </div>
+      <div class="section-header-row">
+        <h3 data-i18n="results.plots">Визуализация датасета</h3>
+        <a id="download-pdf" class="btn secondary btn-sm" href="#" download="quality_report.pdf" data-i18n="btn.download.pdf">Скачать PDF-отчёт</a>
+      </div>
+      <div class="plot-tabs" id="plot-tabs"></div>
+      <div class="plot-panel" id="panel-sdv">
+        <div class="dist-picks" id="dist-picks"></div>
+        <div class="plot-filter plot-filter--explore">
+          <span class="plot-filter-label" data-i18n="plots.explore">Исследовать колонку</span>
+          <select id="sdv-column-select" class="field-control plot-column-select"></select>
+        </div>
+        <img id="sdv-plot-img" class="plot-img hidden" loading="lazy" alt="">
+      </div>
+      <div class="plot-panel hidden" id="panel-corr">
+        <div id="corr-plots" class="gallery"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>
+      <a href="/docs" target="_blank" rel="noopener" data-i18n="footer.api">REST API</a>
+      ·
+      <a href="https://github.com/MaratElagin/DataSynthesis131/issues" target="_blank" rel="noopener" data-i18n="footer.issues">Issues</a>
+      ·
+      <a href="https://t.me/TBag2002" target="_blank" rel="noopener" data-i18n="footer.telegram">Telegram</a>
+    </p>
+  </footer>
+
+  <script src="/static/i18n.js?v=6"></script>
+  <script src="/static/app.js?v=15"></script>
+</body>
+</html>

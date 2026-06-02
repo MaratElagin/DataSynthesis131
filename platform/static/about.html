@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — DataSynthesis131</title>
+  <link rel="icon" href="/static/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css?v=8">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/" data-i18n-aria="brand.aria">
+        <img class="brand-mark" src="/static/logo.svg" width="44" height="44" alt="">
+        <span class="brand-lockup">
+          <span class="brand-name">Data<span class="brand-highlight">Synthesis</span><span class="brand-num">131</span></span>
+          <span class="brand-tag" data-i18n="brand.tag">Synthetic tabular data</span>
+        </span>
+      </a>
+      <nav class="header-actions">
+        <a href="/" class="header-link" data-i18n="nav.home">Главная</a>
+        <div class="lang-switcher">
+          <button type="button" id="lang-btn" class="lang-btn" aria-haspopup="true" aria-expanded="false" data-i18n-aria="lang.menu">
+            <svg class="lang-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M2 12h20M12 2a15 15 0 0 1 4 10 15 15 0 0 1-4 10 15 15 0 0 1-4-10 15 15 0 0 1 4-10z"/>
+            </svg>
+            <span id="lang-label">RU</span>
+          </button>
+          <div id="lang-menu" class="lang-menu hidden" role="menu">
+            <button type="button" data-lang="ru" data-i18n="lang.ru">Русский</button>
+            <button type="button" data-lang="en" data-i18n="lang.en">English</button>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="about-main">
+    <h1 class="about-page-title" data-i18n="about.title">О платформе</h1>
+
+    <section class="info-card">
+      <h2 data-i18n="about.platform.title">Платформа</h2>
+      <p data-i18n-html="about.platform.lead"></p>
+      <p data-i18n="about.platform.body2"></p>
+      <img src="/static/architecture.svg" class="about-architecture" data-i18n-aria="about.arch.alt" alt="Architecture">
+      <p class="field-hint" data-i18n="about.platform.caption">Верхнеуровневая архитектура платформы</p>
+    </section>
+
+    <section class="info-card">
+      <h2 data-i18n="about.synth.title">Synthesizer</h2>
+      <p data-i18n="about.synth.body"></p>
+      <p data-i18n="about.synth.body2"></p>
+      <figure class="about-shot">
+        <img src="https://github.com/MaratElagin/DataSynthesis131/assets/78168429/4150d04e-0438-4492-b037-29c297167147" data-i18n-aria="about.synth.alg.alt" alt="Algorithm for method selection">
+        <figcaption data-i18n="about.synth.alg.caption">Алгоритм автоматического выбора метода генерации</figcaption>
+      </figure>
+    </section>
+
+    <section class="info-card" id="generation-models">
+      <h2 data-i18n="about.methods.title">Модели генерации</h2>
+      <p data-i18n="about.methods.body"></p>
+      <p data-i18n="about.methods.body2"></p>
+      <ul class="info-list">
+        <li data-i18n-html="about.methods.gc"></li>
+        <li data-i18n-html="about.methods.ctgan"></li>
+        <li data-i18n-html="about.methods.cgan"></li>
+        <li data-i18n-html="about.methods.tvae"></li>
+        <li data-i18n-html="about.methods.auto"></li>
+      </ul>
+    </section>
+
+    <section class="info-card" id="quality-evaluator">
+      <h2 data-i18n="about.qe.title">QualityEvaluator</h2>
+      <p data-i18n="about.qe.body"></p>
+      <p data-i18n="about.qe.body2"></p>
+      <p data-i18n="about.qe.metrics.lead"></p>
+      <ul class="info-list">
+        <li data-i18n-html="about.qe.metric.prop"></li>
+        <li data-i18n-html="about.qe.metric.log"></li>
+        <li data-i18n-html="about.qe.metric.pred"></li>
+        <li data-i18n-html="about.qe.metric.sdv"></li>
+      </ul>
+    </section>
+
+    <section class="info-card">
+      <h2 data-i18n="about.results.title">Результаты измерений</h2>
+      <p data-i18n="about.results.body"></p>
+      <p data-i18n="about.results.body2"></p>
+      <figure class="about-shot">
+        <img src="https://github.com/MaratElagin/DataSynthesis131/assets/78168429/c94370e9-8a21-4b82-8963-e5d549a20bc9" data-i18n-aria="about.results.chart.alt" alt="Model comparison example">
+        <figcaption data-i18n="about.results.chart.caption">Пример сравнения моделей на наборе слабосбалансированных числовых данных</figcaption>
+      </figure>
+      <p><a href="https://docs.google.com/spreadsheets/d/1zOwbl4434EyLFWBd1YC-W45_H1f1AFZaTMWjnS6VhUY/edit?usp=sharing" target="_blank" rel="noopener" data-i18n="about.results.link">Таблица результатов (Google Sheets)</a></p>
+    </section>
+
+    <section class="info-card">
+      <h2 data-i18n="about.refs.title">Исследования и ссылки</h2>
+      <p><a href="https://github.com/MaratElagin/DataSynthesis131/blob/main/DataSynthesis131/README.md" target="_blank" rel="noopener" data-i18n="about.refs.readme">README библиотеки</a></p>
+      <p><a href="https://colab.research.google.com/drive/1D66Nfn_miaiLtaa09fVR0Uu6_pDr6LCm?usp=sharing" target="_blank" rel="noopener" data-i18n="about.refs.colab">Google Colab</a></p>
+      <p><a href="https://youtu.be/6htWtSxMVWM" target="_blank" rel="noopener" data-i18n="about.refs.video">Видео-демо</a></p>
+      <p><a href="https://www.notion.so/Datasynthesis131-documentation-59e40c1fac4e406d88f2674a59ea83c4" target="_blank" rel="noopener" data-i18n="about.refs.notion">Документация (Notion)</a></p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>
+      <a href="/docs" target="_blank" rel="noopener" data-i18n="footer.api">REST API</a>
+      ·
+      <a href="https://github.com/MaratElagin/DataSynthesis131/issues" target="_blank" rel="noopener" data-i18n="footer.issues">Issues</a>
+      ·
+      <a href="https://t.me/TBag2002" target="_blank" rel="noopener" data-i18n="footer.telegram">Telegram</a>
+    </p>
+  </footer>
+
+  <script src="/static/i18n.js?v=2"></script>
+</body>
+</html>

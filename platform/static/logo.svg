@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="DataSynthesis131">
+  <defs>
+    <linearGradient id="ds-grad" x1="8" y1="8" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#5b9dff"/>
+      <stop offset="55%" stop-color="#6d5bff"/>
+      <stop offset="100%" stop-color="#c084fc"/>
+    </linearGradient>
+    <linearGradient id="ds-ghost" x1="20" y1="16" x2="52" y2="48" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#5b9dff" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#c084fc" stop-opacity="0.12"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="#141c28"/>
+  <rect x="1" y="1" width="62" height="62" rx="15" fill="none" stroke="url(#ds-grad)" stroke-opacity="0.35" stroke-width="1"/>
+  <!-- ghost / synthetic layer -->
+  <g transform="translate(6 4)" opacity="0.9">
+    <rect x="10" y="12" width="11" height="11" rx="2.5" fill="url(#ds-ghost)"/>
+    <rect x="24" y="12" width="11" height="11" rx="2.5" fill="url(#ds-ghost)"/>
+    <rect x="10" y="26" width="11" height="11" rx="2.5" fill="url(#ds-ghost)"/>
+    <rect x="24" y="26" width="11" height="11" rx="2.5" fill="url(#ds-ghost)"/>
+  </g>
+  <!-- primary table grid -->
+  <rect x="14" y="16" width="11" height="11" rx="2.5" fill="url(#ds-grad)" fill-opacity="0.95"/>
+  <rect x="28" y="16" width="11" height="11" rx="2.5" fill="url(#ds-grad)" fill-opacity="0.75"/>
+  <rect x="42" y="16" width="11" height="11" rx="2.5" fill="url(#ds-grad)" fill-opacity="0.55"/>
+  <rect x="14" y="30" width="11" height="11" rx="2.5" fill="url(#ds-grad)" fill-opacity="0.75"/>
+  <rect x="28" y="30" width="11" height="11" rx="2.5" fill="url(#ds-grad)"/>
+  <rect x="42" y="30" width="11" height="11" rx="2.5" fill="url(#ds-grad)" fill-opacity="0.85"/>
+  <rect x="14" y="44" width="11" height="11" rx="2.5" fill="url(#ds-grad)" fill-opacity="0.55"/>
+  <rect x="28" y="44" width="11" height="11" rx="2.5" fill="url(#ds-grad)" fill-opacity="0.7"/>
+  <rect x="42" y="44" width="11" height="11" rx="2.5" fill="url(#ds-grad)" fill-opacity="0.45"/>
+</svg>

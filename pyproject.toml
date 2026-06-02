@@ -9,7 +9,7 @@ authors = [{name = "Marat Elagin", email = "maratelagin@gmail.com"}]
 license = "MIT"
 requires-python = ">=3.8"
 description = "A package for generating synthetic tabular data and evaluating the quality."
-readme = "README.md"
+readme = "DataSynthesis131/README.md"
 
 classifiers = [
     "Programming Language :: Python :: 3",
@@ -21,8 +21,22 @@ dependencies = [
     "pandas>=1.2.3",
     "numpy>=1.19.0",
     "scikit-learn>=0.24.2",
-    "sdv",
-    "table-evaluator>=1.6.1"
+    "sdv>=1.0.0",
+    "table-evaluator==1.6.1",
+    "matplotlib>=3.5.0",
+    "seaborn>=0.11.0",
+]
+
+[project.optional-dependencies]
+notebook = ["ipython>=7.0.0"]
+web = [
+    "fastapi>=0.100.0",
+    "uvicorn[standard]>=0.23.0",
+    "python-multipart>=0.0.6",
+    "openpyxl>=3.0.0",
+    "kaleido>=0.2.1",
+    "kaggle>=1.5.0",
+    "python-dotenv>=1.0.0",
 ]
 
 [project.urls]
